@@ -20,7 +20,6 @@ void    RobotomyRequestForm::execute_task(Bureaucrat const &b) const
 {
     Form::execute(b);
 
-    srand(time(NULL));
     std::cout << "vrrrrrrrr" << std::endl;
     if (rand() % 2 == 0)
         std::cout << Form::getTarget() << " has been robotized" << std::endl;
