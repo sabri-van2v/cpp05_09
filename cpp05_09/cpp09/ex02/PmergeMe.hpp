@@ -8,6 +8,7 @@
 #include <cstring>
 #include <algorithm>
 #include <ctime>
+#include <cmath>
 
 void    sort_list(std::list<int> &list, std::list<int> &left, std::list<int> &right);
 void    algo_merge_list(std::list<int> &list);

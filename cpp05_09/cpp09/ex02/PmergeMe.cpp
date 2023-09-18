@@ -1,28 +1,25 @@
 #include "PmergeMe.hpp"
 
-void    sort_list(std::list<int> &list, std::list<int> &left, std::list<int> &right)
+void    insert_elem_list(std::list<int> &big, int elem)
 {
-    std::list<int>::iterator    it_right = right.begin();
-    std::list<int>::iterator    it_left = left.begin();
+    for (std::list<int>::iterator it_big = big.begin(); it_big != big.end(); it_big++)
+        if (elem < *it_big)
+        {
+            big.insert(it_big, elem);
+            return  ;
+        }
+    big.push_back(elem);
+}
 
-    while (it_left != left.end() && it_right != right.end())
+void    sort_list(std::list<int> &big, std::list<int> &little)
+{
+    std::list<int>::iterator    it_little = little.begin();
+
+    while (it_little != little.end())
     {
-        if (*it_left < *it_right)
-        {
-            list.push_back(*it_left);
-            it_left++;
-        }
-        else
-        {
-            list.push_back(*it_right);
-            it_right++;
-        }
+        insert_elem_list(big, *it_little);
+        it_little++;
     }
-
-    for ( ; it_left != left.end(); it_left++)
-        list.push_back(*it_left);
-    for ( ; it_right != right.end(); it_right++)
-        list.push_back(*it_right);
 }
 
 void    algo_merge_list(std::list<int> &list)
@@ -30,45 +27,46 @@ void    algo_merge_list(std::list<int> &list)
     if (list.size() < 2)
         return ;
 
-    std::list<int>              left;
-    std::list<int>              right;
-    std::list<int>::iterator    it = list.begin();
+    std::list<int>              little;
+    std::list<int>              big;
+    int                         impair = -1;
 
-    std::advance(it, list.size() / 2);
-    left.splice(left.begin(), list, list.begin(), it);
-    right.splice(right.begin(), list);
+    if (list.size() % 2 == 1)
+    {
+        impair = *(--(list.end()));
+        list.pop_back();
+    }
+    for (std::list<int>::iterator it = list.begin(); it != list.end(); std::advance(it, 2))
+    {
+        std::list<int>::iterator it_next = ++it;
+        it--;
+        big.push_back(std::max(*it, *it_next));
+        little.push_back(std::min(*it, *it_next));
+    }
+    algo_merge_list(big);
 
-    algo_merge_list(left);
-    algo_merge_list(right);
+    sort_list(big, little);
+    if (impair != -1)
+        insert_elem_list(big, impair);
 
-    sort_list(list, left, right);
+    list = big;
 }
 
-void    sort_vector(std::vector<int> &vector, std::vector<int> &left, std::vector<int> &right)
+void    insert_elem_vector(std::vector<int> &big, int elem)
 {
-    size_t  i_right = 0;
-    size_t  i_left = 0;
-    size_t  i_vec = 0;
+    for (size_t i = 0; i < big.size(); i++)
+        if (elem < big[i])
+        {
+            big.insert(big.begin() + i, elem);
+            return ;
+        }
+    big.push_back(elem);
+}
 
-    while (i_left != left.size() && i_right != right.size())
-    {
-        if (left[i_left] < right[i_right])
-        {
-            vector[i_vec] = left[i_left];
-            i_vec++;
-            i_left++;
-        }
-        else
-        {
-            vector[i_vec] = right[i_right];
-            i_vec++;
-            i_right++;
-        }
-    }
-    for ( ; i_left != left.size(); i_left++)
-        vector[i_vec++] = left[i_left];
-    for ( ; i_right != right.size(); i_right++)
-        vector[i_vec++] = right[i_right];
+void    sort_vector(std::vector<int> &big, std::vector<int> &little)
+{
+    for (size_t i = 0; i < little.size(); i++)
+        insert_elem_vector(big, little[i]);
 }
 
 void    algo_merge_vector(std::vector<int> &vector)
@@ -76,11 +74,26 @@ void    algo_merge_vector(std::vector<int> &vector)
     if (vector.size() < 2)
         return ;
 
-    std::vector<int>    left(vector.begin(), vector.begin() + vector.size() / 2);
-    std::vector<int>    right(vector.begin() + vector.size() / 2, vector.end());
+    std::vector<int>    little;
+    std::vector<int>    big;
+    int                 impair = -1;
 
-    algo_merge_vector(left);
-    algo_merge_vector(right);
+    if (vector.size() % 2 == 1)
+    {
+        impair = vector[vector.size() - 1];
+        vector.pop_back();
+    }
 
-    sort_vector(vector, left, right);
+    for (size_t i = 0; i < vector.size(); i += 2)
+    {
+        big.push_back(std::max(vector[i], vector[i + 1]));
+        little.push_back(std::min(vector[i], vector[i + 1]));
+    }
+    algo_merge_vector(big);
+
+    sort_vector(big, little);
+    if (impair != -1)
+        insert_elem_vector(big, impair);
+
+    vector = big;
 }
