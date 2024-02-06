@@ -59,6 +59,15 @@ void    swap_range_vector(std::vector<int> &vector, int start1, int end1, int st
     std::copy(temp.begin(), temp.end(), vector.begin() + start1);
 }
 
+int jacobsthal(int n)
+{
+    if (n == 0)
+        return (0);
+    if (n == 1)
+        return (1);
+    return (jacobsthal(n - 1) + (2 * jacobsthal(n - 2)));
+}
+
 void    dichotomy_vector(std::vector<int> &part_to_moov, std::vector<int> &vector, int begin, int end, int pair)
 {
     int size = end - begin + 1;
@@ -87,15 +96,67 @@ void    dichotomy_vector(std::vector<int> &part_to_moov, std::vector<int> &vecto
     }
 }
 
+int     jacobsthal_order(int reset)
+{
+    static int  current = jacobsthal(3) + 1;
+    static int  older = jacobsthal(2);
+    static int  jac_terms = 3;
+
+    if (reset)
+    {
+        current = jacobsthal(3) + 2;
+        older = jacobsthal(2);
+        jac_terms = 3;
+    }
+
+    current--;
+
+    if (current == older)
+    {
+        current = jacobsthal(jac_terms + 1);
+        older = jacobsthal(jac_terms);
+        jac_terms++;
+    }
+    return (current);
+}
+
 void    sort_vector(std::vector<int> &vector, int range)
 {
     int pair = range / 2;
+    std::vector<int> little_part;
 
-    for (size_t i = pair - 1; i < vector.size(); i += range)
+    for (size_t separator = 0; separator < vector.size(); separator += pair)
     {
-        std::vector<int> part_to_moov(vector.begin() + i - (pair - 1), vector.begin() + i + 1);
-        vector.erase(vector.begin() + i - (pair - 1), vector.begin() + i + 1);
-        dichotomy_vector(part_to_moov, vector, 0, i - (pair - 1) - 1, pair);
+        little_part.insert(little_part.end(), vector.begin() + separator, vector.begin() + separator + pair);
+        vector.erase(vector.begin() + separator, vector.begin() + separator + pair);
+    }
+
+    int already_put = 0;
+    int count_bigger = 0;
+    int old_jac_number = 0;
+    int new_jac_number = 0;
+    size_t  i = pair - 1;
+
+    while (i < vector.size())
+    {
+        std::vector<int> part_to_moov(little_part.begin() + i - (pair - 1), little_part.begin() + i + 1);
+        dichotomy_vector(part_to_moov, vector, 0, i - pair + (already_put * pair) - (count_bigger * pair), pair);
+        if (new_jac_number > 0 && part_to_moov[part_to_moov.size() - 1] == vector[i - pair + (already_put * pair)])
+            count_bigger++;
+        already_put++;
+        old_jac_number = new_jac_number;
+        new_jac_number = jacobsthal_order(0);
+        if (new_jac_number > old_jac_number)
+            count_bigger = 0;
+        i = (pair * new_jac_number) - 1;
+        while (i >= little_part.size())
+        {
+            old_jac_number = new_jac_number;
+            new_jac_number = jacobsthal_order(0);
+            if (new_jac_number > old_jac_number)
+                return ;
+            i = (pair * new_jac_number) - 1;
+        }
     }
 }
 
@@ -121,6 +182,7 @@ void    algo_merge_vector(std::vector<int> &vector)
     algo_merge_vector(vector);
     range /= 2;
     sort_vector(vector, range);
+    jacobsthal_order(1);
     if (impair.size() > 0)
         dichotomy_vector(impair, vector, 0, vector.size() - 1, pair);
 }
