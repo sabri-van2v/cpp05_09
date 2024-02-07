@@ -54,14 +54,14 @@ void    sort_compare(std::vector<int> &series_v, std::list<int> &series_l)
         std::cout << ' ' << series_v[i];
     std::cout << std::endl;
 
-    std::cout << "Time to process a range of " << series_v.size() << " elements with std::vector : " << diff << " ns" << std::endl;
+    std::cout << "Time to process a range of " << series_v.size() << " elements with std::vector  :   " << diff << " ns" << std::endl;
 
     t1 = gettime_ns();
     algo_merge_list(series_l);
     t2 = gettime_ns();
     diff = t2 - t1;
 
-    std::cout << "Time to process a range of " << series_l.size() << " elements with std::list : " << diff << " ns" << std::endl;
+    std::cout << "Time to process a range of " << series_l.size() << " elements with std::list    :   " << diff << " ns" << std::endl;
 }
 
 int main(int argc, char **argv)
