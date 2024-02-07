@@ -53,6 +53,46 @@ void    check_value(std::string str)
         throw ErrorTooLarge();
 }
 
+bool    good_format(std::string str)
+{
+    for (size_t i = 0; i < 10; i++)
+    {
+        if (i == str.size())
+            return (false);
+        if (i == 4 || i == 7)
+        {
+            if (str[i] != '-')
+                return (false);
+        }
+        else
+        {
+            if (!(str[i] >= '0' && str[i] <= '9'))
+                return (false);
+        }
+    }
+    for (size_t i = 10; i < 13; i++)
+    {
+        if (i == str.size())
+            return (false);
+        if (i == 11)
+        {
+            if (str[i] != '|')
+                return (false);
+        }
+        else
+        {
+            if (str[i] != ' ')
+                return (false);
+        }
+    }
+    for (size_t i = 13; i < str.size(); i++)
+    {
+        if (str[i] != '.' && str[i] != '-' && !(str[i] >= '0' && str[i] <= '9'))
+            return (false);
+    }
+    return (true);
+}
+
 void    bitcoin_value(std::map<std::string, float> &bitcoin, char *filename)
 {
     std::ifstream    file(filename);
@@ -60,6 +100,10 @@ void    bitcoin_value(std::map<std::string, float> &bitcoin, char *filename)
 
     while (std::getline(file, str)){
     try{
+        if (str == "date | value")
+            continue ;
+        if (!good_format(str))
+            throw ErrorBadInput(str.c_str());
         check_date(str);
         check_value(str);
         std::string str_value = str.substr(str.find('|') + 2);

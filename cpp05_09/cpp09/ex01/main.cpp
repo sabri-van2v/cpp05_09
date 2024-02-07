@@ -5,19 +5,19 @@ void    check_input(int argc, char **argv, std::string charset)
     if (argc != 2)
     {
         std::cout << "Error" << std::endl;
-        exit(0);
+        throw Error();
     }
     for (int i = 0; argv[1][i]; i++)
         if (charset.find(argv[1][i]) == std::string::npos)
         {
             std::cout << "Error" << std::endl;
-            exit(0);
+            throw Error();
         }
     for (int i = 0; argv[1][i]; i++)
         if (argv[1][i] != ' ' && (argv[1][i + 1] != ' ' && argv[1][i + 1]))
             {
                 std::cout << "Error" << std::endl;
-                exit(0);
+                throw Error();
             }
 }
 
@@ -49,13 +49,19 @@ int main(int argc, char **argv)
         plus, minus, divided_by, times
     };
 
-    run_calcul(argv[1], f, rpn);
+    try
+    {    
+        run_calcul(argv[1], f, rpn);
 
-    if (rpn.size() != 1)
-    {
-        std::cout << "Error" << std::endl;
-        exit(0);
+        if (rpn.size() != 1)
+        {
+            std::cout << "Error" << std::endl;
+            throw Error();
+        }
+
+        std::cout << rpn.top() << std::endl;
     }
-
-    std::cout << rpn.top() << std::endl;
+    catch (std::exception &e){
+        return (1);
+    }
 }

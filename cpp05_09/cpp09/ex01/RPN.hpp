@@ -15,4 +15,12 @@ void    check_input(int argc, char **argv, std::string charset);
 void    run_calcul(std::string str, int (*f[4])(int, int), std::stack<int> &rpn);
 int     main(int argc, char **argv);
 
+class   Error : public std::exception
+{
+    const char *what() const throw()
+    {
+        return ("Error");
+    }
+};
+
 #endif

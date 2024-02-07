@@ -18,6 +18,8 @@ std::map<std::string, float>    parsing_csv(std::string filename)
 
     while (std::getline(csv, line))
     {
+        if (line == "date,exchange_rate")
+            continue ;
         std::istringstream line_stream(line);
         std::getline(line_stream, date, ',');
         std::getline(line_stream, value, '\n');

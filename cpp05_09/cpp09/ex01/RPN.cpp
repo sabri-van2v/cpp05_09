@@ -15,7 +15,7 @@ int divided_by(int a, int b)
     if (b == 0)
     {
         std::cout << "divided by zero" << std::endl;
-        exit(0);
+        throw Error();
     }
     return a / b;
 }
@@ -31,9 +31,8 @@ void    calcul(char c, std::string charset, int (*f[4])(int, int), std::stack<in
 
     if (rpn.size() < 2)
     {
-        std::cout << rpn.top() << " " << c;
         std::cout << "Error" << std::endl;
-        exit(0);
+        throw Error();
     }
     b = rpn.top();
     rpn.pop();
