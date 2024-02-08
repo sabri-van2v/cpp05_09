@@ -42,7 +42,12 @@ void    run_calcul(std::string str, int (*f[4])(int, int), std::stack<int> &rpn)
 
 int main(int argc, char **argv)
 {
+    try{
     check_input(argc, argv, "0123456789+-/* ");
+    }
+    catch (std::exception &e){
+        return (1);
+    }
 
     std::stack<int> rpn;
     int (*f[4])(int, int) = {

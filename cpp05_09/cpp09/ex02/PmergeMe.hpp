@@ -10,9 +10,7 @@
 #include <ctime>
 #include <cmath>
 
-void    sort_list(std::list<int> &list, std::list<int> &left, std::list<int> &right);
 void    algo_merge_list(std::list<int> &list);
-void    sort_vector(std::vector<int> &vector, std::vector<int> &left, std::vector<int> &right);
 void    algo_merge_vector(std::vector<int> &vector);
 
 long                gettime_ns();
