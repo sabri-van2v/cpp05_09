@@ -12,13 +12,14 @@ class Serializer
 {
 public:
 
+    static uintptr_t   serialize(Data *ptr);
+    static Data        *deserialize(uintptr_t integer);
+
+private:
     Serializer();
     Serializer(Serializer const &s);
     ~Serializer();
     Serializer &operator=(Serializer const &s);
-
-    static uintptr_t   serialize(Data *ptr);
-    static Data        *deserialize(uintptr_t integer);
 };
 
 #endif

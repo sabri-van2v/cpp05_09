@@ -43,5 +43,33 @@ int main()
         ++rit;
     }
 
+    MutantStack<int> mstackr;
+
+    mstackr.push(6);
+    mstackr.push(18);
+
+    std::cout << std::endl << "top : " << mstackr.top() << std::endl << std::endl;
+    mstackr.pop();
+    std::cout << "top : " << mstackr.top() << std::endl << std::endl;
+    std::cout << "size : " << mstackr.size() << std::endl << std::endl;
+
+    mstackr.push(4);
+    mstackr.push(6);
+    mstackr.push(738);
+
+    mstackr.push(1);
+
+    MutantStack<int>::reverse_iterator msrit = mstackr.rbegin();
+    MutantStack<int>::reverse_iterator msrite = mstackr.rend();
+
+    ++msrit;
+    --msrit;
+
+    while (msrit != msrite)
+    {
+        std::cout << *msrit << std::endl;
+        ++msrit;
+    }
+
     return 0;
 }

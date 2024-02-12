@@ -15,8 +15,8 @@ public:
         return (*this);
     }
 
-    typedef typename MutantStack<T>::stack<T>::container_type::iterator iterator;
-    typedef typename MutantStack<T>::stack<T>::container_type::reverse_iterator reverse_iterator;
+    typedef typename std::stack<T>::container_type::iterator iterator;
+    typedef typename std::stack<T>::container_type::reverse_iterator reverse_iterator;
 
     iterator    begin(){ return this->c.begin(); }
     iterator    end(){ return this->c.end(); }

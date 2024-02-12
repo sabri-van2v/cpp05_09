@@ -1,29 +1,29 @@
-#include "ScalarConvert.hpp"
+#include "ScalarConverter.hpp"
 
-int ScalarConvert::impossible = VALIDE;
+int ScalarConverter::impossible = VALIDE;
 
-ScalarConvert::ScalarConvert()
+ScalarConverter::ScalarConverter()
 {
     impossible = VALIDE;
 }
 
-ScalarConvert::ScalarConvert(ScalarConvert const &s)
+ScalarConverter::ScalarConverter(ScalarConverter const &s)
 {
     impossible = VALIDE;
     (void)s;
 }
 
-ScalarConvert::~ScalarConvert()
+ScalarConverter::~ScalarConverter()
 {}
 
-ScalarConvert &ScalarConvert::operator=(ScalarConvert const &s)
+ScalarConverter &ScalarConverter::operator=(ScalarConverter const &s)
 {
     (void)s;
     return (*this);
 }
 
 
-void    ScalarConvert::ConvertChar(double &number)
+void    ScalarConverter::ConvertChar(double &number)
 {
     std::cout << "char : ";
     if (impossible == IMPOSSIBLE)
@@ -42,7 +42,7 @@ void    ScalarConvert::ConvertChar(double &number)
         std::cout << "overflow" << std::endl;
 }
 
-void    ScalarConvert::ConvertInt(double &number)
+void    ScalarConverter::ConvertInt(double &number)
 {
     std::cout << "int : ";
     if (impossible == IMPOSSIBLE)
@@ -56,7 +56,7 @@ void    ScalarConvert::ConvertInt(double &number)
         std::cout << "overflow" << std::endl;
 }
 
-void    ScalarConvert::ConvertFloat(double &number)
+void    ScalarConverter::ConvertFloat(double &number)
 {
     std::cout << "float : ";
     if (impossible == IMPOSSIBLE)
@@ -69,7 +69,7 @@ void    ScalarConvert::ConvertFloat(double &number)
     std::cout << 'f' << std::endl;
 }
 
-void    ScalarConvert::ConvertDouble(double &number)
+void    ScalarConverter::ConvertDouble(double &number)
 {
     std::cout << "double : ";
     if (impossible == IMPOSSIBLE)
@@ -82,7 +82,7 @@ void    ScalarConvert::ConvertDouble(double &number)
     std::cout << std::endl;
 }
 
-void ScalarConvert::out_dotzero(double &number)
+void ScalarConverter::out_dotzero(double &number)
 {
     std::ostringstream stream1;
     std::ostringstream stream2;
@@ -94,19 +94,24 @@ void ScalarConvert::out_dotzero(double &number)
         std::cout << ".0";
 }
 
-void ScalarConvert::check_str(std::string str)
+void ScalarConverter::check_str(std::string str)
 {
     int i = 0;
 
     if (str[0] == '-')
         str = str.substr(1);
+    if (!(str[i] >= '0' && str[i] <= '9'))
+    {
+        ScalarConverter::impossible = IMPOSSIBLE;
+        return ;
+    }
     while (str[i] >= '0' && str[i] <= '9')
         i++;
     if (!str[i] || (str[i] == 'f' && !str[i + 1]))
         return ;
     if (str[i] != '.')
     {
-        ScalarConvert::impossible = IMPOSSIBLE;
+        ScalarConverter::impossible = IMPOSSIBLE;
         return ;
     }
     i++;
@@ -115,23 +120,23 @@ void ScalarConvert::check_str(std::string str)
     if (str[i] == 'f')
     {
         if (str.size() - 1 != (size_t)i)
-            ScalarConvert::impossible = IMPOSSIBLE;
+            ScalarConverter::impossible = IMPOSSIBLE;
     }
     else
         if (str.size() != (size_t)i)
-            ScalarConvert::impossible = IMPOSSIBLE;
+            ScalarConverter::impossible = IMPOSSIBLE;
 }
 
-void ScalarConvert::convert(std::string str)
+void ScalarConverter::convert(std::string str)
 {
-    ScalarConvert::check_str(str);
+    ScalarConverter::check_str(str);
 
     double number = std::strtod(str.c_str(), NULL);
 
-    ScalarConvert::ConvertChar(number);
-    ScalarConvert::ConvertInt(number);
-    ScalarConvert::ConvertFloat(number);
-    ScalarConvert::ConvertDouble(number);
+    ScalarConverter::ConvertChar(number);
+    ScalarConverter::ConvertInt(number);
+    ScalarConverter::ConvertFloat(number);
+    ScalarConverter::ConvertDouble(number);
 
-    ScalarConvert::impossible = 0;
+    ScalarConverter::impossible = 0;
 }

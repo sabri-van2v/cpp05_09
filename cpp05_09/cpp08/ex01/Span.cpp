@@ -31,7 +31,7 @@ void    Span::addNumbers(int add)
 {
     if (add + _arr.size() > _size)
         add = _size - _arr.size();
-    std::generate_n(std::back_inserter(_arr), add, Random());
+    std::generate_n(std::back_inserter(_arr), add, rand);
 }
 
 int     Span::shortestSpan()
@@ -52,5 +52,5 @@ int     Span::longestSpan()
     std::vector<int>::iterator max_element_it = std::max_element(_arr.begin(), _arr.end());
     std::vector<int>::iterator min_element_it = std::min_element(_arr.begin(), _arr.end());
 
-    return (std::abs(*max_element_it - *min_element_it));
+    return (*max_element_it - *min_element_it);
 }

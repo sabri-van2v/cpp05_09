@@ -1,4 +1,4 @@
-SRCS = main.cpp ScalarConvert.cpp
+SRCS = main.cpp ScalarConverter.cpp
 
 OBJS = 	${SRCS:%.cpp=%.o}
 
@@ -8,7 +8,7 @@ CC 	= 	c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-HEADERS = ScalarConvert.hpp
+HEADERS = ScalarConverter.hpp
 
 %.o: %.cpp ${HEADERS}
 	${CC} ${CFLAGS} -c $< -o $@ -I.

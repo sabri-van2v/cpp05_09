@@ -40,14 +40,6 @@ public:
         }
     };
 
-    class Random
-    {
-    public:
-        int operator()(){
-            return rand();
-        }
-    };
-
 private:
     unsigned int        _size;
     std::vector<int>    _arr;

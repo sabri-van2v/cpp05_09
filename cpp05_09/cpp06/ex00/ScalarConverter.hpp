@@ -1,5 +1,5 @@
-#ifndef SCALARCONVERT_HPP
-#define SCALARCONVERT_HPP
+#ifndef SCALARCONVERTER_HPP
+#define SCALARCONVERTER_HPP
 
 #include <iostream>
 #include <sstream>
@@ -16,14 +16,9 @@ enum
     IMPOSSIBLE,
 };
 
-class ScalarConvert
+class ScalarConverter
 {
 public:
-
-    ScalarConvert();
-    ScalarConvert(ScalarConvert const &s);
-    ~ScalarConvert();
-    ScalarConvert &operator=(ScalarConvert const &s);
 
     static void     ConvertChar(double &number);
     static void     ConvertInt(double &number);
@@ -36,6 +31,11 @@ public:
     static void convert(std::string str);
 
 private:
+
+    ScalarConverter();
+    ScalarConverter(ScalarConverter const &s);
+    ~ScalarConverter();
+    ScalarConverter &operator=(ScalarConverter const &s);
 
     static int  impossible;
 };
